@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "name": "@hexlet/code",
+  "description": "[![Actions Status](https://github.com/failler815/qa-auto-engineer-javascript-project-87/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/failler815/qa-auto-engineer-javascript-project-87/actions)",
+  "version": "1.0.0",
+  "main": "gendiff.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "type": "module",
+  "license": "ISC"
+}
