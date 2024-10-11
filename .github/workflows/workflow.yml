@@ -1,4 +1,4 @@
-name: show-directory
+name: lint
 on: push
 jobs:
   build:
