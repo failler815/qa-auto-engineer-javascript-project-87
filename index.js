@@ -1,8 +1,15 @@
 import _ from 'lodash';
 import path from 'path';
 import fs from 'fs';
+import { cwd } from 'node:process';
 
-const genDiff = (data1 = {}, data2 = {}) => {
+const findFileAndConvertToJson = (pathToFile, directory) => {
+  const absolutePath = path.resolve(cwd(), directory, pathToFile);
+  const rawData = fs.readFileSync(absolutePath);
+  const json = JSON.parse(rawData);
+  return json;
+};
+const genDiff = (data1, data2) => {
   const keys = _.union(_.keys(data1), _.keys(data2));
   const sortKeys = keys.sort();
   let result = '{\n';
@@ -21,10 +28,5 @@ const genDiff = (data1 = {}, data2 = {}) => {
   result += '}';
   return result;
 };
-const findFileAndConvertToJson = (pathToFile) => {
-  const absolutePath = path.resolve(pathToFile);
-  const rawData = fs.readFileSync(absolutePath);
-  const json = JSON.parse(rawData);
-  return json;
-};
+
 export { genDiff, findFileAndConvertToJson };
