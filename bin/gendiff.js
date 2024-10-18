@@ -1,17 +1,23 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { genDiff, findFileAndConvertToJson } from '../index.js';
+import { genDiff, findFile } from '../index.js';
+import getParse from '../parsers.js';
 
 program
   .name('gendiff')
-
+  .description('Парсинг двух файлов и показ отличий.')
+  .version('1.0.0')
   .option('-f, --format <type>', 'output format')
   .argument('<filepath1>')
   .argument('<filepath2>')
   .action((filepath1, filepath2) => {
-    const json1 = findFileAndConvertToJson(filepath1,'__fixtures__');
-    const json2 = findFileAndConvertToJson(filepath2,'__fixtures__');
-    const result = genDiff(json1, json2);
+    const absolutePath1 = findFile(filepath1, '__fixtures__');
+    const absolutePath2 = findFile(filepath2, '__fixtures__');
+    const file1 = getParse(absolutePath1);
+    const file2 = getParse(absolutePath2);
+    const result = genDiff(file1, file2);
+
     console.log(result);
   });
+
 program.parse();
