@@ -1,55 +1,43 @@
 import _ from 'lodash';
 
-const basic = (diffTree, replacer = '    ', spacesCount = 1) => {
-  const iter = (data, depth) => {
-    if (!_.isObject(data)) {
-      return `${data}`;
-    }
-    const repeat = replacer.repeat(depth + 1);
-    const line = Object.entries(data).map(([key, val]) => {
-      const preparedValue = iter(val, depth + 1);
-      return `${repeat}${key}: ${preparedValue}`;
-    });
-    const outRepeat = replacer.repeat(depth);
-    const rawResult = ['{', ...line, `${outRepeat}}`].join('\n');
-    return rawResult;
-  };
-  const lines = [];
-  const indentation = replacer.repeat(spacesCount);
-  diffTree.forEach(({ key, value, status }) => {
-    switch (status) {
-      case 'nested':
-        lines.push(
-          `${indentation}${key}: ${basic(value, replacer, spacesCount + 1)}`
-        );
-        break;
-      case 'added':
-        lines.push(
-          `${indentation.slice(2)}+ ${key}: ${iter(value, spacesCount)}`
-        );
-        break;
-      case 'deleted':
-        lines.push(
-          `${indentation.slice(2)}- ${key}: ${iter(value, spacesCount)}`
-        );
-        break;
-      case 'changed':
-        lines.push(
-          `${indentation.slice(2)}- ${key}: ${iter(value[0], spacesCount)}`
-        );
-        lines.push(
-          `${indentation.slice(2)}+ ${key}: ${iter(value[1], spacesCount)}`
-        );
-        break;
-      case 'unchanged':
-        lines.push(`${indentation}${key}: ${iter(value, 1)}`);
-        break;
-      default:
-        throw new Error(`Unknown status: '${status}'!`);
-    }
+const stringify = (value, depth, replacer = '    ') => {
+  if (!_.isObject(value)) {
+    return `${value}`;
+  }
+  const valueSpaceCount = replacer.repeat(depth + 1);
+  const line = Object.entries(value).map(([key, val]) => {
+    const preparedValue = stringify(val, depth + 1);
+    return `${valueSpaceCount}${key}: ${preparedValue}`;
   });
-  const outRepeat = replacer.repeat(spacesCount - 1);
-  return ['{', ...lines, `${outRepeat}}`].join('\n');
+  const closeObjectSpaceCount = replacer.repeat(depth);
+  return ['{', ...line, `${closeObjectSpaceCount}}`].join('\n');
+};
+
+const basic = (diffTree, replacer = '    ', depth = 1) => {
+  const initialIndent = replacer.repeat(depth).slice(2);
+  const result = diffTree.flatMap(
+    ({ key, value, status, oldValue, newValue, children }) => {
+      switch (status) {
+        case 'nested':
+          return `${initialIndent}  ${key}: ${stylish(children, replacer, depth + 1)}`;
+        case 'added':
+          return `${initialIndent}+ ${key}: ${stringify(value, depth)}`;
+        case 'deleted':
+          return `${initialIndent}- ${key}: ${stringify(value, depth)}`;
+        case 'changed':
+          return [
+            `${initialIndent}- ${key}: ${stringify(oldValue, depth)}`,
+            `${initialIndent}+ ${key}: ${stringify(newValue, depth)}`,
+          ];
+        case 'unchanged':
+          return `${initialIndent}  ${key}: ${stringify(value, depth)}`;
+        default:
+          throw new Error(`Unknown status: '${status}'!`);
+      }
+    }
+  );
+  const outRepeat = replacer.repeat(depth - 1);
+  return ['{', ...result, `${outRepeat}}`].join('\n');
 };
 
 export default basic;

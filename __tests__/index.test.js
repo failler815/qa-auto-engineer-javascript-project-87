@@ -1,45 +1,34 @@
-import { expect, test } from '@jest/globals';
 import { fileURLToPath } from 'url';
-import { join, dirname } from 'path';
 import fs from 'fs';
-import yaml from 'js-yaml';
-import genearateDiff from '../src/formatters/index.js';
+import path from 'path';
+import genDiff from '../src/index.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) =>
-  join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename));
+  path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) =>
+  fs.readFileSync(getFixturePath(filename), 'utf-8').trim();
 
-const file1Json = yaml.load(readFile('file1.json'));
-const file2Json = yaml.load(readFile('file2.json'));
+const file1Json1 = getFixturePath('file1.json');
+const file2Json = getFixturePath('file2.json');
+const file1Yaml = getFixturePath('file1.yml');
+const file2Yaml = getFixturePath('file2.yml');
 
-const file1Yaml = yaml.load(readFile('file1.yml'));
-const file2Yaml = yaml.load(readFile('file2.yml'));
+const basic = readFile('basic.txt');
+const plain = readFile('plain.txt');
+const json = readFile('json.txt');
 
-const basic = readFile('gendiff.txt').toString();
-const plain = readFile('plain.txt').toString();
-const json = readFile('json.txt').toString();
-
-test('Дефолтное сравнение двух файлов json', () => {
-  expect(genearateDiff(file1Json, file2Json)).toBe(basic);
-});
-
-test('Дефолтное сравнение двух файлов yaml', () => {
-  expect(genearateDiff(file1Yaml, file2Yaml)).toBe(basic);
-});
-
-test('plain сравнение двух файлов json', () => {
-  expect(genearateDiff(file1Json, file2Json, 'plain')).toBe(plain);
-});
-
-test('plain сравнение двух файлов yaml', () => {
-  expect(genearateDiff(file1Yaml, file2Yaml, 'plain')).toBe(plain);
-});
-
-test('json сравнение двух файлов json', () => {
-  expect(genearateDiff(file1Json, file2Json, 'json')).toBe(json);
-});
-
-test('json сравнение двух файлов yaml', () => {
-  expect(genearateDiff(file1Yaml, file2Yaml, 'json')).toBe(json);
+describe('tests for diff generation between two files', () => {
+  test.each([
+    ['basic', file1Json1, file2Json, basic],
+    ['basic', file1Yaml, file2Yaml, basic],
+    ['plain', file1Json1, file2Json, plain],
+    ['json', file1Json1, file2Json, json],
+  ])(
+    'genDiff compares file1 and file2 using %s for expected result',
+    (formatName, file1, file2, expectedResult) => {
+      expect(genDiff(file1, file2, formatName)).toBe(expectedResult);
+    }
+  );
 });
