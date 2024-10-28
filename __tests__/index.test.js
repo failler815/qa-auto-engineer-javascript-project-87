@@ -1,3 +1,4 @@
+import { describe, expect, test } from '@jest/globals';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
@@ -12,8 +13,8 @@ const readFile = (filename) =>
 
 const file1Json1 = getFixturePath('file1.json');
 const file2Json = getFixturePath('file2.json');
-const file1Yaml = getFixturePath('file1.yml');
-const file2Yaml = getFixturePath('file2.yml');
+const file1Yaml = getFixturePath('file1.yaml');
+const file2Yaml = getFixturePath('file2.yaml');
 
 const basic = readFile('basic.txt');
 const plain = readFile('plain.txt');

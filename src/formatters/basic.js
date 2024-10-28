@@ -19,7 +19,7 @@ const basic = (diffTree, replacer = '    ', depth = 1) => {
     ({ key, value, status, oldValue, newValue, children }) => {
       switch (status) {
         case 'nested':
-          return `${initialIndent}  ${key}: ${stylish(children, replacer, depth + 1)}`;
+          return `${initialIndent}  ${key}: ${stringify(children, replacer, depth + 1)}`;
         case 'added':
           return `${initialIndent}+ ${key}: ${stringify(value, depth)}`;
         case 'deleted':
