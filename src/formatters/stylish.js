@@ -13,7 +13,7 @@ const stringify = (value, depth, replacer = '    ') => {
   return ['{', ...line, `${closeObjectSpaceCount}}`].join('\n');
 };
 
-const basic = (diffTree, replacer = '    ', depth = 1) => {
+const stylish = (diffTree, replacer = '    ', depth = 1) => {
   const initialIndent = replacer.repeat(depth).slice(2);
   const result = diffTree.flatMap(
     ({ key, value, status, oldValue, newValue, children }) => {
@@ -40,4 +40,4 @@ const basic = (diffTree, replacer = '    ', depth = 1) => {
   return ['{', ...result, `${outRepeat}}`].join('\n');
 };
 
-export default basic;
+export default stylish;

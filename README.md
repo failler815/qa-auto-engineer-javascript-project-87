@@ -5,7 +5,7 @@
 <a href="https://codeclimate.com/github/failler815/qa-auto-engineer-javascript-project-87/maintainability"><img src="https://api.codeclimate.com/v1/badges/5d76830068dd966f0aac/maintainability" /></a>
 <a href="https://codeclimate.com/github/failler815/qa-auto-engineer-javascript-project-87/test_coverage"><img src="https://api.codeclimate.com/v1/badges/5d76830068dd966f0aac/test_coverage" /></a>
 
-### basic
+### stylish
 
 [![asciicast](https://asciinema.org/a/6dQO4rNwpRrGjtUXgucsHAJR8.svg)](https://asciinema.org/a/6dQO4rNwpRrGjtUXgucsHAJR8)
 

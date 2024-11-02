@@ -16,14 +16,14 @@ const file2Json = getFixturePath('file2.json');
 const file1Yaml = getFixturePath('file1.yml');
 const file2Yaml = getFixturePath('file2.yml');
 
-const basic = readFile('basic.txt');
+const stylish = readFile('stylish.txt');
 const plain = readFile('plain.txt');
 const json = readFile('json.txt');
 
 describe('Tests for diff generation between two files', () => {
   test.each([
-    ['basic', file1Json, file2Json, basic],
-    ['basic', file1Yaml, file2Yaml, basic],
+    ['stylish', file1Json, file2Json, stylish],
+    ['stylish', file1Yaml, file2Yaml, stylish],
     ['plain', file1Json, file2Json, plain],
     ['json', file1Json, file2Json, json],
   ])(
