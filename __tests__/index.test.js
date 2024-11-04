@@ -16,7 +16,7 @@ const stylish = readFile('stylish.txt');
 const plain = readFile('plain.txt');
 const json = readFile('json.txt');
 
-describe('Tests for diff generation between two files', () => {
+describe('tests for diff generation between two files', () => {
   test.each([
     ['stylish', file1Json, file2Json, stylish],
     ['stylish', file1Yaml, file2Yaml, stylish],
@@ -25,7 +25,6 @@ describe('Tests for diff generation between two files', () => {
   ])(
     'genDiff compares file1 and file2 using %s format for expected result',
     (formatName, file1, file2, expectedResult) => {
-      expect(genDiff(file1, file2, formatName)).toBe(expectedResult);
-    }
-  );
+    expect(genDiff(file1, file2, formatName)).toBe(expectedResult);
+  });
 });
