@@ -22,10 +22,7 @@ describe('tests for diff generation between two files', () => {
     ['stylish', file1Yaml, file2Yaml, stylish],
     ['plain', file1Json, file2Json, plain],
     ['json', file1Json, file2Json, json],
-  ])(
-    'genDiff compares file1 and file2 using %s format for expected result',
-    (formatName, file1, file2, expectedResult) => {
+  ])('genDiff compares file1 and file2 using %s format for expected result', (formatName, file1, file2, expectedResult) => {
       expect(genDiff(file1, file2, formatName)).toBe(expectedResult);
-    }
-  );
+   });
 });
