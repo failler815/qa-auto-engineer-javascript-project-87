@@ -15,8 +15,9 @@ const stringify = (value, depth, replacer = '    ') => {
 
 const stylish = (diffTree, replacer = '    ', depth = 1) => {
   const initialIndent = replacer.repeat(depth).slice(2);
-  const result = diffTree.flatMap(
-    ({ key, value, status, oldValue, newValue, children }) => {
+  const result = diffTree.flatMap(({
+    key, value, status, oldValue, newValue, children
+  }) => {
       switch (status) {
         case 'nested':
           return `${initialIndent}  ${key}: ${stringify(children, replacer, depth + 1)}`;

@@ -44,7 +44,7 @@ const makeFileData = (pathToFile) => {
     __dirname,
     '..',
     '__fixtures__',
-    pathToFile
+    pathToFile,
   );
   const data = fs.readFileSync(absolutePath, 'utf-8');
   const format = _.trim(path.extname(pathToFile), '.');

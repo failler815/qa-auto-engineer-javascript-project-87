@@ -13,7 +13,9 @@ const plainValue = (value) => {
 const plain = (diffTree, parentKey = '') => {
   const result = diffTree
     .filter(({ status }) => status !== 'unchanged')
-    .map(({ key, value, status, oldValue, newValue, children }) => {
+    .map(({
+      key, value, status, oldValue, newValue, children,
+    }) => {
       const newProperty = _.trim(`${parentKey}.${key}`, '.');
       switch (status) {
         case 'changed':
