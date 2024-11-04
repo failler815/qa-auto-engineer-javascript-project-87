@@ -25,6 +25,7 @@ describe('tests for diff generation between two files', () => {
   ])(
     'genDiff compares file1 and file2 using %s format for expected result',
     (formatName, file1, file2, expectedResult) => {
-    expect(genDiff(file1, file2, formatName)).toBe(expectedResult);
-  });
+      expect(genDiff(file1, file2, formatName)).toBe(expectedResult);
+    }
+  );
 });
